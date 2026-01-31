@@ -1,0 +1,226 @@
+.confirmation-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.confirmation-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.confirmation-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.confirmation-modal-header.variant-info {
+  background: #eff6ff;
+  border-bottom-color: #bfdbfe;
+}
+
+.confirmation-modal-header.variant-warning {
+  background: #fef3c7;
+  border-bottom-color: #fcd34d;
+}
+
+.confirmation-modal-header.variant-danger {
+  background: #fee2e2;
+  border-bottom-color: #fca5a5;
+}
+
+.confirmation-modal-header.variant-success {
+  background: #d1fae5;
+  border-bottom-color: #6ee7b7;
+}
+
+.confirmation-modal-title {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.confirmation-modal-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.confirmation-modal-close:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1f2937;
+}
+
+.confirmation-modal-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirmation-modal-body {
+  padding: 1.5rem;
+}
+
+.confirmation-modal-message {
+  color: #4b5563;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.confirmation-modal-message:last-child {
+  margin-bottom: 0;
+}
+
+.confirmation-modal-content {
+  margin-top: 1rem;
+}
+
+.confirmation-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.btn-modal-cancel,
+.btn-modal-confirm {
+  padding: 0.625rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modal-cancel {
+  background: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn-modal-cancel:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.btn-modal-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-modal-confirm {
+  color: white;
+}
+
+.btn-modal-confirm.variant-info {
+  background: #3b82f6;
+}
+
+.btn-modal-confirm.variant-info:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btn-modal-confirm.variant-warning {
+  background: #f59e0b;
+}
+
+.btn-modal-confirm.variant-warning:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.btn-modal-confirm.variant-danger {
+  background: #ef4444;
+}
+
+.btn-modal-confirm.variant-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn-modal-confirm.variant-success {
+  background: #10b981;
+}
+
+.btn-modal-confirm.variant-success:hover:not(:disabled) {
+  background: #059669;
+}
+
+.btn-modal-confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

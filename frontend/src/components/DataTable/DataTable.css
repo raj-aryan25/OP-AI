@@ -1,0 +1,78 @@
+.data-table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.data-table thead {
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.data-table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.data-table th.sortable:hover {
+  background: #f3f4f6;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table.striped tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.data-table.hoverable tbody tr:hover {
+  background: #f3f4f6;
+}
+
+.data-table tbody tr.clickable {
+  cursor: pointer;
+}
+
+.data-table td {
+  padding: 1rem;
+  color: #1f2937;
+}
+
+.data-table .empty-message {
+  text-align: center;
+  color: #9ca3af;
+  padding: 3rem 1rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}
