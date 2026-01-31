@@ -1,0 +1,78 @@
+import type { Station } from '../types/admin';
+
+export const mockStations: Station[] = [
+  {
+    id: 'ST-001',
+    name: 'Downtown Hub',
+    queueLength: 5,
+    arrivalRate: 12.5,
+    activeChargers: 8,
+    chargedBatteryInventory: 24,
+    temperature: 22.5,
+    stationLoad: 67.3,
+  },
+  {
+    id: 'ST-002',
+    name: 'Airport Terminal',
+    queueLength: 3,
+    arrivalRate: 8.2,
+    activeChargers: 10,
+    chargedBatteryInventory: 18,
+    temperature: 23.1,
+    stationLoad: 45.8,
+  },
+  {
+    id: 'ST-003',
+    name: 'Central Station',
+    queueLength: 8,
+    arrivalRate: 15.7,
+    activeChargers: 12,
+    chargedBatteryInventory: 32,
+    temperature: 21.9,
+    stationLoad: 82.4,
+  },
+  {
+    id: 'ST-004',
+    name: 'North District',
+    queueLength: 2,
+    arrivalRate: 6.3,
+    activeChargers: 6,
+    chargedBatteryInventory: 15,
+    temperature: 22.8,
+    stationLoad: 38.2,
+  },
+  {
+    id: 'ST-005',
+    name: 'South Gateway',
+    queueLength: 6,
+    arrivalRate: 10.9,
+    activeChargers: 9,
+    chargedBatteryInventory: 21,
+    temperature: 24.2,
+    stationLoad: 71.6,
+  },
+];
+
+export const mockSimulationOutput = {
+  timestamp: new Date().toISOString(),
+  scenario: 'counterfactual_analysis',
+  metrics: {
+    totalCustomersServed: 1247,
+    averageWaitTime: 4.3,
+    peakLoadTime: '14:30',
+    batteryUtilization: 78.5,
+    networkEfficiency: 85.2,
+  },
+  recommendations: [
+    'Increase chargers at Central Station during peak hours',
+    'Redistribute battery inventory from Airport Terminal to Downtown Hub',
+    'Monitor temperature at South Gateway',
+  ],
+  stationPerformance: {
+    'ST-001': { efficiency: 82.1, throughput: 245 },
+    'ST-002': { efficiency: 91.3, throughput: 189 },
+    'ST-003': { efficiency: 76.8, throughput: 312 },
+    'ST-004': { efficiency: 94.2, throughput: 134 },
+    'ST-005': { efficiency: 79.5, throughput: 267 },
+  },
+};

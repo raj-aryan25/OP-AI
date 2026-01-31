@@ -1,41 +1,13 @@
-.operator-layout {
-  display: flex;
-  min-height: calc(100vh - 60px);
-}
-
+/* Operator theme colors */
 .operator-sidebar {
-  width: 250px;
   background: #065f46;
-  color: white;
-  padding: 2rem 1.5rem;
 }
 
-.operator-sidebar h2 {
-  color: white;
-  margin-bottom: 2rem;
-  font-size: 1.5rem;
-}
-
-.operator-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.operator-nav a {
+.operator-sidebar .sidebar-link {
   color: #a7f3d0;
-  text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s;
 }
 
-.operator-nav a:hover {
+.operator-sidebar .sidebar-link:hover {
   background: #059669;
   color: white;
-}
-
-.operator-content {
-  flex: 1;
-  background: #f9fafb;
 }

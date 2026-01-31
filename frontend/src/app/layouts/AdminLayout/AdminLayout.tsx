@@ -1,21 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './AdminLayout.css';
+
+const adminSidebarItems: SidebarItem[] = [
+  { label: 'Overview', href: '/admin', icon: '📊' },
+  { label: 'Station Config', href: '/admin/stations', icon: '🔧' },
+  { label: 'Simulation', href: '/admin/simulation', icon: '🎮' },
+  { label: 'Network View', href: '/admin/network', icon: '🗺️' },
+  { label: 'Analytics', href: '#analytics', icon: '📈' },
+];
 
 export default function AdminLayout() {
   return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <h2>Admin Panel</h2>
-        <nav className="admin-nav">
-          <a href="#overview">Overview</a>
-          <a href="#users">Users</a>
-          <a href="#settings">Settings</a>
-          <a href="#analytics">Analytics</a>
-        </nav>
-      </aside>
-      <div className="admin-content">
-        <Outlet />
-      </div>
-    </div>
+    <BaseLayout
+      sidebarTitle="Admin Panel"
+      sidebarItems={adminSidebarItems}
+      sidebarClassName="admin-sidebar"
+    />
   );
 }

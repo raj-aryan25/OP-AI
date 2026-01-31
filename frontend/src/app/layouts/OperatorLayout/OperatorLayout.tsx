@@ -1,21 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './OperatorLayout.css';
+
+const operatorSidebarItems: SidebarItem[] = [
+  { label: 'Task Queue', href: '#tasks', icon: '✓' },
+  { label: 'Performance Metrics', href: '#metrics', icon: '📊' },
+  { label: 'Notifications', href: '#notifications', icon: '🔔' },
+  { label: 'Reports', href: '#reports', icon: '📋' },
+  { label: 'Activity Log', href: '#activity', icon: '📝' },
+];
 
 export default function OperatorLayout() {
   return (
-    <div className="operator-layout">
-      <aside className="operator-sidebar">
-        <h2>Operations</h2>
-        <nav className="operator-nav">
-          <a href="#tasks">Tasks</a>
-          <a href="#metrics">Metrics</a>
-          <a href="#notifications">Notifications</a>
-          <a href="#reports">Reports</a>
-        </nav>
-      </aside>
-      <div className="operator-content">
-        <Outlet />
-      </div>
-    </div>
+    <BaseLayout
+      sidebarTitle="Operations"
+      sidebarItems={operatorSidebarItems}
+      sidebarClassName="operator-sidebar"
+    />
   );
 }

@@ -1,21 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './UserLayout.css';
+
+const userSidebarItems: SidebarItem[] = [
+  { label: 'My Profile', href: '#profile', icon: '👤' },
+  { label: 'Activity', href: '#activity', icon: '⚡' },
+  { label: 'Settings', href: '#settings', icon: '⚙️' },
+  { label: 'Preferences', href: '#preferences', icon: '🎨' },
+  { label: 'Help & Support', href: '#help', icon: '❓' },
+];
 
 export default function UserLayout() {
   return (
-    <div className="user-layout">
-      <aside className="user-sidebar">
-        <h2>My Space</h2>
-        <nav className="user-nav">
-          <a href="#profile">Profile</a>
-          <a href="#activity">Activity</a>
-          <a href="#settings">Settings</a>
-          <a href="#help">Help</a>
-        </nav>
-      </aside>
-      <div className="user-content">
-        <Outlet />
-      </div>
-    </div>
+    <BaseLayout
+      sidebarTitle="My Space"
+      sidebarItems={userSidebarItems}
+      sidebarClassName="user-sidebar"
+    />
   );
 }
