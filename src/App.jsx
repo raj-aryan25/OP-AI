@@ -8,6 +8,12 @@ function App() {
 
   return (
     <>
+    <div className="App">
+      <header className="App-header">
+        <img src={reactLogo} className="logo react" alt="React logo" />
+        <h1>Hello from Amplify</h1>
+      </header>
+    </div>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -32,4 +38,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
