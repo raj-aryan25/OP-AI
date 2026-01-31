@@ -3,7 +3,7 @@ import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import OperatorLayout from './layouts/OperatorLayout';
 import UserLayout from './layouts/UserLayout';
-import NotFound from './layouts/NotFound';
+
 import AdminDashboard from '../dashboards/admin/AdminDashboard.tsx';
 import StationConfigPage from '../dashboards/admin/pages/StationConfigPage.tsx';
 import SimulationControlsPage from '../dashboards/admin/pages/SimulationControlsPage.tsx';
@@ -22,7 +22,7 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Navigate to="/user" replace />} />
-          
+
           {/* Admin routes with wildcard */}
           <Route path="admin/*" element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
@@ -48,7 +48,7 @@ export default function AppRouter() {
         </Route>
 
         {/* 404 fallback */}
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

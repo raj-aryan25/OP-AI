@@ -10,7 +10,7 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Single build output
+        manualChunks: () => 'main', // Single build output
       },
     },
   },
