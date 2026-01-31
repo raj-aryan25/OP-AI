@@ -9,6 +9,9 @@ import StationConfigPage from '../dashboards/admin/pages/StationConfigPage.tsx';
 import SimulationControlsPage from '../dashboards/admin/pages/SimulationControlsPage.tsx';
 import GlobalNetworkViewPage from '../dashboards/admin/pages/GlobalNetworkViewPage.tsx';
 import OperatorDashboard from '../dashboards/operator/OperatorDashboard.tsx';
+import StationOverviewPage from '../dashboards/operator/pages/StationOverviewPage.tsx';
+import FailureLogsPage from '../dashboards/operator/pages/FailureLogsPage.tsx';
+import MaintenanceActionsPage from '../dashboards/operator/pages/MaintenanceActionsPage.tsx';
 import UserDashboard from '../dashboards/user/UserDashboard.tsx';
 
 export default function AppRouter() {
@@ -29,6 +32,9 @@ export default function AppRouter() {
           {/* Operator routes with wildcard */}
           <Route path="operator/*" element={<OperatorLayout />}>
             <Route index element={<OperatorDashboard />} />
+            <Route path="overview" element={<StationOverviewPage />} />
+            <Route path="failures" element={<FailureLogsPage />} />
+            <Route path="actions" element={<MaintenanceActionsPage />} />
           </Route>
 
           {/* User routes with wildcard */}

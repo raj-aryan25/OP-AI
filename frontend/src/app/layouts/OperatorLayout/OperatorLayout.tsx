@@ -2,11 +2,11 @@ import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './OperatorLayout.css';
 
 const operatorSidebarItems: SidebarItem[] = [
-  { label: 'Task Queue', href: '#tasks', icon: '✓' },
-  { label: 'Performance Metrics', href: '#metrics', icon: '📊' },
-  { label: 'Notifications', href: '#notifications', icon: '🔔' },
-  { label: 'Reports', href: '#reports', icon: '📋' },
-  { label: 'Activity Log', href: '#activity', icon: '📝' },
+  { label: 'Dashboard', href: '/operator', icon: '🏠' },
+  { label: 'Station Overview', href: '/operator/overview', icon: '⚡' },
+  { label: 'Failure Logs', href: '/operator/failures', icon: '🚨' },
+  { label: 'Maintenance Actions', href: '/operator/actions', icon: '🔧' },
+  { label: 'Activity Log', href: '/operator/activity', icon: '📝' },
 ];
 
 export default function OperatorLayout() {
