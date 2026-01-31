@@ -143,7 +143,40 @@ This is a foundational template. Extend it by:
 - Adding TypeScript interfaces in `types/`
 - Developing mock data in `mock/` for testing
 
-## 📝 License
+## � Deployment
+
+### AWS Amplify
+
+The application is configured for seamless deployment on AWS Amplify with:
+- ✅ Client-side routing support via `_redirects` file
+- ✅ Relative asset paths for flexible hosting
+- ✅ Optimized build configuration
+- ✅ Automatic cache headers
+
+**Quick Deploy:**
+1. Connect your repository to AWS Amplify
+2. Set build folder to `frontend`
+3. Amplify auto-detects `amplify.yml` configuration
+4. Deploy automatically on git push
+
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+### Other Platforms
+
+**Netlify:**
+- `_redirects` file handles SPA routing automatically
+- Build command: `npm run build`
+- Publish directory: `dist`
+
+**Vercel:**
+- Auto-detects Vite configuration
+- Zero-config deployment from GitHub
+
+**Firebase Hosting:**
+- Uses `firebase.json` configuration
+- Run `firebase deploy` after build
+
+## �📝 License
 
 MIT License
       tseslint.configs.stylisticTypeChecked,
