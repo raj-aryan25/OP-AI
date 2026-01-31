@@ -1,0 +1,245 @@
+.route-planner-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.planner-container {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.route-form {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.form-section {
+  padding: 2rem;
+}
+
+.form-section h2 {
+  color: #1f2937;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.location-select,
+.time-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+.location-select:focus,
+.time-input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.location-details {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding-left: 0.5rem;
+}
+
+.swap-button-container {
+  display: flex;
+  justify-content: center;
+  margin: -0.5rem 0;
+}
+
+.swap-locations-btn {
+  background: #f3f4f6;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swap-locations-btn:hover {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+  transform: rotate(180deg);
+}
+
+.find-stations-btn {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.find-stations-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.find-stations-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.route-summary {
+  background: #f9fafb;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.route-summary h3 {
+  color: #1f2937;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.summary-value {
+  color: #1f2937;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.map-placeholder {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #d1d5db;
+}
+
+.placeholder-content {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+}
+
+.map-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.placeholder-content h3 {
+  color: #4b5563;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-content > p {
+  color: #9ca3af;
+  margin-bottom: 2rem;
+}
+
+.placeholder-info {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.placeholder-info p {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.placeholder-info ul {
+  color: #6b7280;
+  font-size: 0.875rem;
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+}
+
+.placeholder-info li {
+  padding: 0.25rem 0;
+}
+
+@media (max-width: 1024px) {
+  .planner-container {
+    grid-template-columns: 1fr;
+  }
+
+  .map-placeholder {
+    height: 400px;
+  }
+}

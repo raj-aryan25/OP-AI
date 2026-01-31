@@ -13,6 +13,8 @@ import StationOverviewPage from '../dashboards/operator/pages/StationOverviewPag
 import FailureLogsPage from '../dashboards/operator/pages/FailureLogsPage.tsx';
 import MaintenanceActionsPage from '../dashboards/operator/pages/MaintenanceActionsPage.tsx';
 import UserDashboard from '../dashboards/user/UserDashboard.tsx';
+import RoutePlannerPage from '../dashboards/user/pages/RoutePlannerPage.tsx';
+import SwapRecommendationPage from '../dashboards/user/pages/SwapRecommendationPage.tsx';
 
 export default function AppRouter() {
   return (
@@ -40,6 +42,8 @@ export default function AppRouter() {
           {/* User routes with wildcard */}
           <Route path="user/*" element={<UserLayout />}>
             <Route index element={<UserDashboard />} />
+            <Route path="route" element={<RoutePlannerPage />} />
+            <Route path="recommendation" element={<SwapRecommendationPage />} />
           </Route>
         </Route>
 
