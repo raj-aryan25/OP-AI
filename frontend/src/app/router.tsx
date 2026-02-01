@@ -15,9 +15,12 @@ import OperatorDashboard from '../dashboards/operator/OperatorDashboard.tsx';
 import StationOverviewPage from '../dashboards/operator/pages/StationOverviewPage.tsx';
 import FailureLogsPage from '../dashboards/operator/pages/FailureLogsPage.tsx';
 import MaintenanceActionsPage from '../dashboards/operator/pages/MaintenanceActionsPage.tsx';
+import ActivityLogPage from '../dashboards/operator/pages/ActivityLogPage.tsx';
 import UserDashboard from '../dashboards/user/UserDashboard.tsx';
 import RoutePlannerPage from '../dashboards/user/pages/RoutePlannerPage.tsx';
 import SwapRecommendationPage from '../dashboards/user/pages/SwapRecommendationPage.tsx';
+import MyProfilePage from '../dashboards/user/pages/MyProfilePage.tsx';
+import SettingsPage from '../dashboards/user/pages/SettingsPage.tsx';
 
 export default function AppRouter() {
   return (
@@ -50,6 +53,7 @@ export default function AppRouter() {
                 <Route path="overview" element={<StationOverviewPage />} />
                 <Route path="failures" element={<FailureLogsPage />} />
                 <Route path="actions" element={<MaintenanceActionsPage />} />
+                <Route path="activity" element={<ActivityLogPage />} />
               </Route>
             </Route>
 
@@ -59,6 +63,8 @@ export default function AppRouter() {
                 <Route index element={<UserDashboard />} />
                 <Route path="route" element={<RoutePlannerPage />} />
                 <Route path="recommendation" element={<SwapRecommendationPage />} />
+                <Route path="profile" element={<MyProfilePage />} />
+                <Route path="settings" element={<SettingsPage />} />
               </Route>
             </Route>
           </Route>

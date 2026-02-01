@@ -1,3 +1,4 @@
+import ErrorBoundary from '../../../components/ErrorBoundary';
 import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './OperatorLayout.css';
 
@@ -11,11 +12,13 @@ const operatorSidebarItems: SidebarItem[] = [
 
 export default function OperatorLayout() {
   return (
-    <BaseLayout
-      className="theme-dark"
-      sidebarTitle="Operations"
-      sidebarItems={operatorSidebarItems}
-      sidebarClassName="operator-sidebar"
-    />
+    <ErrorBoundary dashboardName="Operator">
+      <BaseLayout
+        className="theme-dark"
+        sidebarTitle="Operations"
+        sidebarItems={operatorSidebarItems}
+        sidebarClassName="operator-sidebar"
+      />
+    </ErrorBoundary>
   );
 }

@@ -5,6 +5,7 @@ import {
   User,
   Settings
 } from 'lucide-react';
+import ErrorBoundary from '../../../components/ErrorBoundary';
 import BaseLayout, { type SidebarItem } from '../BaseLayout';
 import './UserLayout.css';
 
@@ -18,11 +19,13 @@ const userSidebarItems: SidebarItem[] = [
 
 export default function UserLayout() {
   return (
-    <BaseLayout
-      className="theme-light"
-      sidebarTitle="My Space"
-      sidebarItems={userSidebarItems}
-      sidebarClassName="user-sidebar"
-    />
+    <ErrorBoundary dashboardName="User">
+      <BaseLayout
+        className="theme-light"
+        sidebarTitle="My Space"
+        sidebarItems={userSidebarItems}
+        sidebarClassName="user-sidebar"
+      />
+    </ErrorBoundary>
   );
 }

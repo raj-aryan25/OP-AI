@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
 import type {
   Station,
   StationOperationalState,
@@ -471,7 +472,18 @@ export const useOperationalStateById = (stationId: string) => {
  * Computed dynamically from base state - not stored
  */
 export const useAvailableStations = () => {
-  return useStationStore((state) => state.selectors.getAvailableStations());
+  return useStationStore(
+    useShallow((state) => {
+      const stations = state.stations;
+      const opStates = state.operationalStates;
+      return stations.filter((station) => {
+        const opState = opStates.find(s => s.stationId === station.id);
+        // Available if online and has capacity (chargers available or low load)
+        return opState?.status === 'online' && 
+               (station.activeChargers < station.totalChargers || station.stationLoad < 95);
+      });
+    })
+  );
 };
 
 /**
@@ -480,7 +492,12 @@ export const useAvailableStations = () => {
  * Computed dynamically from base state - not stored
  */
 export const useOverloadedStations = () => {
-  return useStationStore((state) => state.selectors.getOverloadedStations());
+  return useStationStore(
+    useShallow((state) => {
+      // Overloaded if station load >= 85%
+      return state.stations.filter((station) => station.stationLoad >= 85);
+    })
+  );
 };
 
 /**
@@ -489,7 +506,12 @@ export const useOverloadedStations = () => {
  * Computed dynamically from base state - not stored
  */
 export const useStationsWithLowInventory = () => {
-  return useStationStore((state) => state.selectors.getStationsWithLowInventory());
+  return useStationStore(
+    useShallow((state) => {
+      // Low inventory if charged batteries <= 5
+      return state.stations.filter((station) => station.chargedBatteryInventory <= 5);
+    })
+  );
 };
 
 // ============================================================================

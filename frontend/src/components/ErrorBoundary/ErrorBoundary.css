@@ -1,0 +1,100 @@
+.error-boundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fee2e2 0%, #fef3c7 100%);
+  padding: 2rem;
+}
+
+.error-content {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  max-width: 800px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.error-content h1 {
+  color: #dc2626;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.error-content h2 {
+  color: #6b7280;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.error-details {
+  text-align: left;
+  margin: 2rem 0;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  padding: 0.5rem;
+  user-select: none;
+}
+
+.error-details summary:hover {
+  color: #1f2937;
+}
+
+.error-message, .error-stack {
+  background: #1f2937;
+  color: #f87171;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+.error-stack {
+  color: #fbbf24;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.reload-button, .home-button {
+  padding: 0.75rem 2rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reload-button {
+  background: #3b82f6;
+  color: white;
+}
+
+.reload-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.home-button {
+  background: #6b7280;
+  color: white;
+}
+
+.home-button:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
