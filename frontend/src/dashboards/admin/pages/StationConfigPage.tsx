@@ -1,36 +1,50 @@
 import { useState } from 'react';
-import type { Station } from '../../../types/admin';
-import { mockStations } from '../../../mock/adminData';
+import { useStations, useAdminStationStore } from '../../../store';
+import type { Station } from '../../../types/station';
 import './StationConfigPage.css';
 
 export default function StationConfigPage() {
-  const [stations, setStations] = useState<Station[]>(mockStations);
+  // Use global Zustand store - changes propagate to all dashboards
+  const stations = useStations();
+  const { adminActions } = useAdminStationStore();
+  
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingValues, setEditingValues] = useState<Partial<Station>>({});
 
   const handleEdit = (stationId: string) => {
-    setEditingId(stationId);
+    const station = stations.find(s => s.id === stationId);
+    if (station) {
+      setEditingId(stationId);
+      setEditingValues({ ...station });
+    }
   };
 
   const handleSave = () => {
-    setEditingId(null);
-    // In a real app, this would persist to backend
-    console.log('Saved stations:', stations);
+    if (editingId && editingValues) {
+      // Update global store - changes propagate immediately to all dashboards
+      adminActions.updateStationConfig(editingId, editingValues);
+      setEditingId(null);
+      setEditingValues({});
+      console.log('Saved station to global store:', editingId);
+    }
   };
 
   const handleCancel = () => {
     setEditingId(null);
-    // Reset to original data
-    setStations(mockStations);
+    setEditingValues({});
   };
 
-  const handleChange = (id: string, field: keyof Station, value: string | number) => {
-    setStations(prevStations =>
-      prevStations.map(station =>
-        station.id === id
-          ? { ...station, [field]: typeof value === 'string' ? parseFloat(value) || 0 : value }
-          : station
-      )
-    );
+  const handleChange = (field: keyof Station, value: string | number) => {
+    setEditingValues(prev => ({
+      ...prev,
+      [field]: typeof value === 'string' ? parseFloat(value) || 0 : value
+    }));
+  };
+
+  const getDisplayValue = (station: Station, field: keyof Station) => {
+    return editingId === station.id && editingValues[field] !== undefined
+      ? editingValues[field]
+      : station[field];
   };
 
   const getLoadClass = (load: number) => {
@@ -72,8 +86,8 @@ export default function StationConfigPage() {
                     {isEditing ? (
                       <input
                         type="number"
-                        value={station.queueLength}
-                        onChange={(e) => handleChange(station.id, 'queueLength', e.target.value)}
+                        value={getDisplayValue(station, 'queueLength') as number}
+                        onChange={(e) => handleChange('queueLength', e.target.value)}
                         min="0"
                         className="table-input"
                       />
@@ -85,8 +99,8 @@ export default function StationConfigPage() {
                     {isEditing ? (
                       <input
                         type="number"
-                        value={station.arrivalRate}
-                        onChange={(e) => handleChange(station.id, 'arrivalRate', e.target.value)}
+                        value={getDisplayValue(station, 'arrivalRate') as number}
+                        onChange={(e) => handleChange('arrivalRate', e.target.value)}
                         min="0"
                         step="0.1"
                         className="table-input"
@@ -99,8 +113,8 @@ export default function StationConfigPage() {
                     {isEditing ? (
                       <input
                         type="number"
-                        value={station.activeChargers}
-                        onChange={(e) => handleChange(station.id, 'activeChargers', e.target.value)}
+                        value={getDisplayValue(station, 'activeChargers') as number}
+                        onChange={(e) => handleChange('activeChargers', e.target.value)}
                         min="0"
                         className="table-input"
                       />
@@ -112,8 +126,8 @@ export default function StationConfigPage() {
                     {isEditing ? (
                       <input
                         type="number"
-                        value={station.chargedBatteryInventory}
-                        onChange={(e) => handleChange(station.id, 'chargedBatteryInventory', e.target.value)}
+                        value={getDisplayValue(station, 'chargedBatteryInventory') as number}
+                        onChange={(e) => handleChange('chargedBatteryInventory', e.target.value)}
                         min="0"
                         className="table-input"
                       />
@@ -125,8 +139,8 @@ export default function StationConfigPage() {
                     {isEditing ? (
                       <input
                         type="number"
-                        value={station.temperature}
-                        onChange={(e) => handleChange(station.id, 'temperature', e.target.value)}
+                        value={getDisplayValue(station, 'temperature') as number}
+                        onChange={(e) => handleChange('temperature', e.target.value)}
                         step="0.1"
                         className="table-input"
                       />
@@ -139,8 +153,8 @@ export default function StationConfigPage() {
                       {isEditing ? (
                         <input
                           type="number"
-                          value={station.stationLoad}
-                          onChange={(e) => handleChange(station.id, 'stationLoad', e.target.value)}
+                          value={getDisplayValue(station, 'stationLoad') as number}
+                          onChange={(e) => handleChange('stationLoad', e.target.value)}
                           min="0"
                           max="100"
                           step="0.1"

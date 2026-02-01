@@ -1,20 +1,14 @@
 import { useState } from 'react';
-import type { SimulationState, SimulationStatus } from '../../../types/admin';
-import { mockSimulationOutput } from '../../../mock/adminData';
+import { useStationData } from '../../../app/context/StationDataContext';
+import type { SimulationStatus } from '../../../types/station';
 import './SimulationControlsPage.css';
 
 export default function SimulationControlsPage() {
-  const [simulation, setSimulation] = useState<SimulationState>({
-    status: 'idle',
-    output: null,
-    startTime: null,
-    endTime: null,
-  });
-
+  const { simulationState, setSimulationState, simulationOutput } = useStationData();
   const [failureInjected, setFailureInjected] = useState(false);
 
   const runCounterfactualSimulation = () => {
-    setSimulation({
+    setSimulationState({
       status: 'running',
       output: null,
       startTime: new Date().toISOString(),
@@ -23,10 +17,10 @@ export default function SimulationControlsPage() {
 
     // Simulate async operation
     setTimeout(() => {
-      setSimulation({
+      setSimulationState({
         status: 'completed',
-        output: mockSimulationOutput,
-        startTime: simulation.startTime,
+        output: simulationOutput,
+        startTime: simulationState.startTime,
         endTime: new Date().toISOString(),
       });
     }, 2000);
@@ -35,7 +29,7 @@ export default function SimulationControlsPage() {
   const injectFailureScenario = () => {
     setFailureInjected(true);
     const failureOutput = {
-      ...mockSimulationOutput,
+      ...simulationOutput,
       scenario: 'failure_injection',
       failureDetails: {
         type: 'charger_malfunction',
@@ -45,14 +39,14 @@ export default function SimulationControlsPage() {
         affectedCustomers: 45,
       },
       metrics: {
-        ...mockSimulationOutput.metrics,
+        ...(simulationOutput?.metrics || {}),
         totalCustomersServed: 1102,
         averageWaitTime: 8.7,
         networkEfficiency: 62.3,
       },
     };
 
-    setSimulation({
+    setSimulationState({
       status: 'running',
       output: null,
       startTime: new Date().toISOString(),
@@ -60,17 +54,17 @@ export default function SimulationControlsPage() {
     });
 
     setTimeout(() => {
-      setSimulation({
+      setSimulationState({
         status: 'completed',
         output: failureOutput,
-        startTime: simulation.startTime,
+        startTime: simulationState.startTime,
         endTime: new Date().toISOString(),
       });
     }, 2000);
   };
 
   const resetNetworkState = () => {
-    setSimulation({
+    setSimulationState({
       status: 'idle',
       output: null,
       startTime: null,
@@ -87,10 +81,10 @@ export default function SimulationControlsPage() {
     };
 
     return (
-      <span className={`status-badge ${statusClasses[simulation.status]}`}>
-        {simulation.status === 'running' && '⏳ '}
-        {simulation.status === 'completed' && '✓ '}
-        {simulation.status.toUpperCase()}
+      <span className={`status-badge ${statusClasses[simulationState.status]}`}>
+        {simulationState.status === 'running' && '⏳ '}
+        {simulationState.status === 'completed' && '✓ '}
+        {simulationState.status.toUpperCase()}
       </span>
     );
   };
@@ -109,11 +103,11 @@ export default function SimulationControlsPage() {
             {getStatusBadge()}
           </div>
           
-          {simulation.startTime && (
+          {simulationState.startTime && (
             <div className="time-info">
-              <p><strong>Started:</strong> {new Date(simulation.startTime).toLocaleTimeString()}</p>
-              {simulation.endTime && (
-                <p><strong>Completed:</strong> {new Date(simulation.endTime).toLocaleTimeString()}</p>
+              <p><strong>Started:</strong> {new Date(simulationState.startTime).toLocaleTimeString()}</p>
+              {simulationState.endTime && (
+                <p><strong>Completed:</strong> {new Date(simulationState.endTime).toLocaleTimeString()}</p>
               )}
             </div>
           )}
@@ -124,7 +118,7 @@ export default function SimulationControlsPage() {
           <div className="button-group">
             <button
               onClick={runCounterfactualSimulation}
-              disabled={simulation.status === 'running'}
+              disabled={simulationState.status === 'running'}
               className="btn-primary btn-large"
             >
               🔄 Run Counterfactual Simulation
@@ -132,7 +126,7 @@ export default function SimulationControlsPage() {
             
             <button
               onClick={injectFailureScenario}
-              disabled={simulation.status === 'running'}
+              disabled={simulationState.status === 'running'}
               className="btn-warning btn-large"
             >
               ⚠️ Inject Failure Scenario
@@ -140,14 +134,14 @@ export default function SimulationControlsPage() {
             
             <button
               onClick={resetNetworkState}
-              disabled={simulation.status === 'running'}
+              disabled={simulationState.status === 'running'}
               className="btn-secondary btn-large"
             >
               🔄 Reset Network State
             </button>
           </div>
 
-          {failureInjected && simulation.status === 'idle' && (
+          {failureInjected && simulationState.status === 'idle' && (
             <div className="alert alert-warning">
               <strong>Note:</strong> Failure scenario will be applied on next simulation run
             </div>
@@ -155,33 +149,33 @@ export default function SimulationControlsPage() {
         </div>
       </div>
 
-      {simulation.status === 'running' && (
+      {simulationState.status === 'running' && (
         <div className="loading-section">
           <div className="spinner"></div>
           <p>Running simulation... Please wait.</p>
         </div>
       )}
 
-      {simulation.status === 'completed' && simulation.output && (
+      {simulationState.status === 'completed' && simulationState.output && (
         <div className="output-section">
           <div className="output-header">
             <h2>Simulation Output</h2>
-            <button onClick={() => navigator.clipboard.writeText(JSON.stringify(simulation.output, null, 2))} className="btn-copy">
+            <button onClick={() => navigator.clipboard.writeText(JSON.stringify(simulationState.output, null, 2))} className="btn-copy">
               📋 Copy JSON
             </button>
           </div>
           
           <div className="json-viewer">
-            <pre>{JSON.stringify(simulation.output, null, 2)}</pre>
+            <pre>{JSON.stringify(simulationState.output, null, 2)}</pre>
           </div>
 
-          {simulation.output.recommendations && 
-           Array.isArray(simulation.output.recommendations) && 
-           simulation.output.recommendations.length > 0 ? (
+          {simulationState.output.recommendations && 
+           Array.isArray(simulationState.output.recommendations) && 
+           simulationState.output.recommendations.length > 0 ? (
             <div className="recommendations">
               <h3>Recommendations</h3>
               <ul>
-                {(simulation.output.recommendations as string[]).map((rec, idx) => (
+                {(simulationState.output.recommendations as string[]).map((rec, idx) => (
                   <li key={idx}>{rec}</li>
                 ))}
               </ul>

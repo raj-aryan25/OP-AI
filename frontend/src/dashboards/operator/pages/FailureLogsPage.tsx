@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import type { FailureEvent } from '../../../types/operator';
-import { mockFailureEvents } from '../../../mock/operatorData';
+import { useOperatorStationStore } from '../../../store';
+import type { FailureEvent } from '../../../types/station';
 import './FailureLogsPage.css';
 
 export default function FailureLogsPage() {
+  // Subscribe to global Zustand store - reactive updates
+  const { failureEvents } = useOperatorStationStore();
   const [selectedFailure, setSelectedFailure] = useState<FailureEvent | null>(null);
   const [filterSeverity, setFilterSeverity] = useState<string>('all');
 
@@ -29,8 +31,8 @@ export default function FailureLogsPage() {
   };
 
   const filteredFailures = filterSeverity === 'all' 
-    ? mockFailureEvents 
-    : mockFailureEvents.filter(f => f.severity === filterSeverity);
+    ? failureEvents 
+    : failureEvents.filter((f: FailureEvent) => f.severity === filterSeverity);
 
   return (
     <div className="failure-logs-page">

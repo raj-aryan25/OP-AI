@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { StationDataProvider } from './context/StationDataContext';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import OperatorLayout from './layouts/OperatorLayout';
@@ -22,50 +23,52 @@ import SwapRecommendationPage from '../dashboards/user/pages/SwapRecommendationP
 export default function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+      <StationDataProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        <Route element={<MainLayout />}>
-          {/* Login Routes */}
-          <Route path="login">
-            <Route path="admin" element={<LoginPage requiredGroup="Admins" />} />
-            <Route path="operator" element={<LoginPage requiredGroup="Operators" />} />
-            <Route path="user" element={<LoginPage requiredGroup="Users" />} />
-          </Route>
+          <Route element={<MainLayout />}>
+            {/* Login Routes */}
+            <Route path="login">
+              <Route path="admin" element={<LoginPage requiredGroup="Admins" />} />
+              <Route path="operator" element={<LoginPage requiredGroup="Operators" />} />
+              <Route path="user" element={<LoginPage requiredGroup="Users" />} />
+            </Route>
 
-          {/* Admin routes protected by AuthGuard */}
-          <Route element={<AuthGuard requiredGroup="Admins" />}>
-            <Route path="admin/*" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="stations" element={<StationConfigPage />} />
-              <Route path="simulation" element={<SimulationControlsPage />} />
-              <Route path="network" element={<GlobalNetworkViewPage />} />
+            {/* Admin routes protected by AuthGuard */}
+            <Route element={<AuthGuard requiredGroup="Admins" />}>
+              <Route path="admin/*" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="stations" element={<StationConfigPage />} />
+                <Route path="simulation" element={<SimulationControlsPage />} />
+                <Route path="network" element={<GlobalNetworkViewPage />} />
+              </Route>
+            </Route>
+
+            {/* Operator routes protected by AuthGuard */}
+            <Route element={<AuthGuard requiredGroup="Operators" />}>
+              <Route path="operator/*" element={<OperatorLayout />}>
+                <Route index element={<OperatorDashboard />} />
+                <Route path="overview" element={<StationOverviewPage />} />
+                <Route path="failures" element={<FailureLogsPage />} />
+                <Route path="actions" element={<MaintenanceActionsPage />} />
+              </Route>
+            </Route>
+
+            {/* User routes protected by AuthGuard */}
+            <Route element={<AuthGuard requiredGroup="Users" />}>
+              <Route path="user/*" element={<UserLayout />}>
+                <Route index element={<UserDashboard />} />
+                <Route path="route" element={<RoutePlannerPage />} />
+                <Route path="recommendation" element={<SwapRecommendationPage />} />
+              </Route>
             </Route>
           </Route>
 
-          {/* Operator routes protected by AuthGuard */}
-          <Route element={<AuthGuard requiredGroup="Operators" />}>
-            <Route path="operator/*" element={<OperatorLayout />}>
-              <Route index element={<OperatorDashboard />} />
-              <Route path="overview" element={<StationOverviewPage />} />
-              <Route path="failures" element={<FailureLogsPage />} />
-              <Route path="actions" element={<MaintenanceActionsPage />} />
-            </Route>
-          </Route>
-
-          {/* User routes protected by AuthGuard */}
-          <Route element={<AuthGuard requiredGroup="Users" />}>
-            <Route path="user/*" element={<UserLayout />}>
-              <Route index element={<UserDashboard />} />
-              <Route path="route" element={<RoutePlannerPage />} />
-              <Route path="recommendation" element={<SwapRecommendationPage />} />
-            </Route>
-          </Route>
-        </Route>
-
-        {/* 404 fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* 404 fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </StationDataProvider>
     </BrowserRouter>
   );
 }

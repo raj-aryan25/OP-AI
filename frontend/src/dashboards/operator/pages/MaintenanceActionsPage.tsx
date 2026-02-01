@@ -1,18 +1,16 @@
 import { useState } from 'react';
-import type { MaintenanceAction, ActionStatus } from '../../../types/operator';
-import { mockMaintenanceActions } from '../../../mock/operatorData';
+import { useOperatorStationStore } from '../../../store';
+import type { ActionStatus, MaintenanceAction } from '../../../types/station';
 import './MaintenanceActionsPage.css';
 
 export default function MaintenanceActionsPage() {
-  const [actions, setActions] = useState<MaintenanceAction[]>(mockMaintenanceActions);
+  // Subscribe to global Zustand store - reactive updates
+  const { operatorActions, maintenanceActions } = useOperatorStationStore();
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   const handleStatusChange = (actionId: string, newStatus: ActionStatus) => {
-    setActions(prevActions =>
-      prevActions.map(action =>
-        action.id === actionId ? { ...action, status: newStatus } : action
-      )
-    );
+    // Update global store - changes propagate to all dashboards
+    operatorActions.updateMaintenanceActionStatus(actionId, newStatus);
   };
 
   const getPriorityClass = (priority: string) => {
@@ -37,12 +35,12 @@ export default function MaintenanceActionsPage() {
   };
 
   const filteredActions = filterStatus === 'all'
-    ? actions
-    : actions.filter(a => a.status === filterStatus);
+    ? maintenanceActions
+    : maintenanceActions.filter((a: MaintenanceAction) => a.status === filterStatus);
 
-  const pendingCount = actions.filter(a => a.status === 'pending').length;
-  const acknowledgedCount = actions.filter(a => a.status === 'acknowledged').length;
-  const escalatedCount = actions.filter(a => a.status === 'escalated').length;
+  const pendingCount = maintenanceActions.filter((a: MaintenanceAction) => a.status === 'pending').length;
+  const acknowledgedCount = maintenanceActions.filter((a: MaintenanceAction) => a.status === 'acknowledged').length;
+  const escalatedCount = maintenanceActions.filter((a: MaintenanceAction) => a.status === 'escalated').length;
 
   return (
     <div className="maintenance-actions-page">
@@ -84,7 +82,7 @@ export default function MaintenanceActionsPage() {
         </div>
         <div className="stat-box">
           <span className="stat-label">Total Actions</span>
-          <span className="stat-value total">{actions.length}</span>
+          <span className="stat-value total">{maintenanceActions.length}</span>
         </div>
       </div>
 
