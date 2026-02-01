@@ -1,42 +1,92 @@
+/* Base Layout & Sidebar */
 .base-layout {
   display: flex;
   min-height: calc(100vh - 60px);
+  /* Adjust for MainLayout header */
+  position: relative;
+  background-color: #F8FAFC;
 }
 
+/* Sidebar Styles */
 .base-sidebar {
-  width: 250px;
+  width: 280px;
   padding: 2rem 1.5rem;
-  color: white;
-  transition: all 0.3s ease;
+  background-color: #FFFFFF;
+  /* Explicitly White */
+  border-right: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 30;
+  /* Below MainLayout header but above content */
+  height: calc(100vh - 60px);
+  /* Full height minus header */
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-left: 0.5rem;
 }
 
 .sidebar-title {
-  color: white;
-  margin-bottom: 2rem;
-  font-size: 1.5rem;
-  font-weight: 600;
+  color: #0F172A;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #94A3B8;
+  font-size: 0.85rem;
 }
 
+.close-btn {
+  display: none;
+  /* Hidden on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748B;
+}
+
+/* Nav Links */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  /* Slightly squarer for professional look */
   transition: all 0.2s;
   font-weight: 500;
+  color: #64748B;
+  font-size: 0.95rem;
 }
 
+.sidebar-link:hover {
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+/* Active State - Cyan Theme */
 .sidebar-link.active {
-  background: rgba(255, 255, 255, 0.2);
+  background-color: #E6FFFA;
+  /* Very light Teal/Cyan */
+  color: #0D9488;
+  /* Teal 600 */
   font-weight: 600;
+  border-right: 3px solid #0D9488;
+  /* Right border indicator */
 }
 
 .sidebar-icon {
@@ -44,32 +94,96 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
+  width: 24px;
 }
 
+/* Content Area */
 .base-content {
   flex: 1;
-  background: #f9fafb;
+  background-color: #F8FAFC;
+  /* Light gray background for content */
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  /* Let dashboard container handle padding */
+}
+
+/* Mobile Header (Hidden on Desktop) */
+.mobile-header {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid #E2E8F0;
+  /* Not fixed here, handled by BaseLayout flex? 
+     Actually BaseLayout is inside MainLayout now.
+     MainLayout has the header. Does User need ANOTHER mobile header?
+     Yes, for sidebar toggle.
+  */
+  width: 100%;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0F172A;
+  padding: 0.25rem;
+}
+
+.mobile-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.sidebar-overlay {
+  display: none;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .base-layout {
     flex-direction: column;
+    /* remove min-height calc if stacking */
+  }
+
+  .mobile-header {
+    display: flex;
   }
 
   .base-sidebar {
-    width: 100%;
-    padding: 1rem;
+    position: fixed;
+    top: 60px;
+    /* Below MainLayout header */
+    left: 0;
+    bottom: 0;
+    height: calc(100vh - 60px);
+    width: 260px;
+    transform: translateX(-100%);
+    /* Hidden by default */
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #E2E8F0;
   }
 
-  .sidebar-nav {
-    flex-direction: row;
-    overflow-x: auto;
+  .base-sidebar.open {
+    transform: translateX(0);
   }
 
-  .sidebar-link {
-    white-space: nowrap;
+  .close-btn {
+    display: block;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 25;
+    backdrop-filter: blur(2px);
   }
 }

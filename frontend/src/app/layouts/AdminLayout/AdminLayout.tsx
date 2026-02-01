@@ -12,6 +12,7 @@ const adminSidebarItems: SidebarItem[] = [
 export default function AdminLayout() {
   return (
     <BaseLayout
+      className="theme-dark"
       sidebarTitle="Admin Panel"
       sidebarItems={adminSidebarItems}
       sidebarClassName="admin-sidebar"

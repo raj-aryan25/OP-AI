@@ -2,54 +2,70 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #F8FAFC;
+  /* Light background */
 }
 
 .navbar {
-  background: #1f2937;
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: white;
+  color: #0F172A;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 40;
 }
 
 .nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  width: 100%;
+  padding: 0 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .nav-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.nav-links {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0F172A;
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
 }
 
-.nav-link {
-  color: #d1d5db;
-  text-decoration: none;
-  font-weight: 500;
+.brand-icon {
+  color: #00D26A;
+  /* Brand Green */
+  fill: currentColor;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.nav-link:hover {
-  background-color: #374151;
-  color: white;
-}
-
-.nav-link.active {
-  background-color: #3b82f6;
-  color: white;
+.btn-logout:hover {
+  background: #EFF6FF;
+  color: #3B82F6;
+  border-color: #3B82F6;
 }
 
 .main-content {
   flex: 1;
-  background: #f9fafb;
+  position: relative;
+  /* Ensure it doesn't overflow weirdly */
+  overflow-x: hidden;
 }

@@ -12,6 +12,7 @@ const operatorSidebarItems: SidebarItem[] = [
 export default function OperatorLayout() {
   return (
     <BaseLayout
+      className="theme-dark"
       sidebarTitle="Operations"
       sidebarItems={operatorSidebarItems}
       sidebarClassName="operator-sidebar"

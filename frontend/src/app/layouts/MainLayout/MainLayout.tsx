@@ -1,23 +1,31 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import './MainLayout.css';
+import { Zap } from 'lucide-react';
 
 export default function MainLayout() {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
+  // Check if we are in consumer view (User Dashboard) to apply specific styles if needed
+  const isUserView = location.pathname.startsWith('/user');
+
   return (
-    <div className="main-layout">
+    <div className={`main-layout ${isUserView ? 'theme-light' : ''}`}>
       <nav className="navbar">
         <div className="nav-container">
-          <div className="nav-brand">Multi-Dashboard App</div>
-          <div className="nav-links">
-            <button onClick={handleLogout} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+          <div className="nav-brand" onClick={() => navigate('/')}>
+            <Zap className="brand-icon" size={24} />
+            <span>OP AI</span>
+          </div>
+          <div className="nav-actions">
+            <button onClick={handleLogout} className="btn-logout">
               Sign Out
             </button>
           </div>

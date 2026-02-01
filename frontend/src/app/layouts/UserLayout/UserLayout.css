@@ -1,13 +1,21 @@
-/* User theme colors */
+/* User Layout Specific Overrides */
 .user-sidebar {
-  background: #6b21a8;
+  background: white;
+  /* Enforce white */
+  border-right: 1px solid #E2E8F0;
 }
 
+/* Ensure links use the base layout styles, but if we need specific overrides: */
 .user-sidebar .sidebar-link {
-  color: #e9d5ff;
+  color: #64748B;
 }
 
 .user-sidebar .sidebar-link:hover {
-  background: #7c3aed;
-  color: white;
+  background-color: #F1F5F9;
+  color: #0F172A;
+}
+
+.user-sidebar .sidebar-link.active {
+  background-color: #ECFEFF;
+  color: #06B6D4;
 }
