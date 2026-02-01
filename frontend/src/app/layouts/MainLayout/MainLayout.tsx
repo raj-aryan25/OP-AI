@@ -1,8 +1,10 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import './MainLayout.css';
 
 export default function MainLayout() {
-  const location = useLocation();
+
+  const { signOut } = useAuthenticator((context) => [context.signOut]);
 
   return (
     <div className="main-layout">
@@ -10,28 +12,13 @@ export default function MainLayout() {
         <div className="nav-container">
           <div className="nav-brand">Multi-Dashboard App</div>
           <div className="nav-links">
-            <Link 
-              to="/admin" 
-              className={location.pathname === '/admin' ? 'nav-link active' : 'nav-link'}
-            >
-              Admin
-            </Link>
-            <Link 
-              to="/operator" 
-              className={location.pathname === '/operator' ? 'nav-link active' : 'nav-link'}
-            >
-              Operator
-            </Link>
-            <Link 
-              to="/user" 
-              className={location.pathname === '/user' ? 'nav-link active' : 'nav-link'}
-            >
-              User
-            </Link>
+            <button onClick={signOut} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+              Sign Out
+            </button>
           </div>
         </div>
       </nav>
-      
+
       <main className="main-content">
         <Outlet />
       </main>
