@@ -1,75 +1,23 @@
 import { useState } from 'react';
-import { useStationData } from '../../../app/context/StationDataContext';
+import { useAdminStationStore } from '../../../store';
 import type { SimulationStatus } from '../../../types/station';
 import './SimulationControlsPage.css';
 
 export default function SimulationControlsPage() {
-  const { simulationState, setSimulationState, simulationOutput } = useStationData();
+  const { adminActions, simulationState } = useAdminStationStore();
   const [failureInjected, setFailureInjected] = useState(false);
 
   const runCounterfactualSimulation = () => {
-    setSimulationState({
-      status: 'running',
-      output: null,
-      startTime: new Date().toISOString(),
-      endTime: null,
-    });
-
-    // Simulate async operation
-    setTimeout(() => {
-      setSimulationState({
-        status: 'completed',
-        output: simulationOutput,
-        startTime: simulationState.startTime,
-        endTime: new Date().toISOString(),
-      });
-    }, 2000);
+    adminActions.runSimulation('counterfactual');
   };
 
   const injectFailureScenario = () => {
     setFailureInjected(true);
-    const failureOutput = {
-      ...simulationOutput,
-      scenario: 'failure_injection',
-      failureDetails: {
-        type: 'charger_malfunction',
-        stationId: 'ST-003',
-        severity: 'high',
-        impact: 'Central Station chargers offline',
-        affectedCustomers: 45,
-      },
-      metrics: {
-        ...(simulationOutput?.metrics || {}),
-        totalCustomersServed: 1102,
-        averageWaitTime: 8.7,
-        networkEfficiency: 62.3,
-      },
-    };
-
-    setSimulationState({
-      status: 'running',
-      output: null,
-      startTime: new Date().toISOString(),
-      endTime: null,
-    });
-
-    setTimeout(() => {
-      setSimulationState({
-        status: 'completed',
-        output: failureOutput,
-        startTime: simulationState.startTime,
-        endTime: new Date().toISOString(),
-      });
-    }, 2000);
+    adminActions.runSimulation('failure_injection');
   };
 
   const resetNetworkState = () => {
-    setSimulationState({
-      status: 'idle',
-      output: null,
-      startTime: null,
-      endTime: null,
-    });
+    adminActions.resetSimulation();
     setFailureInjected(false);
   };
 

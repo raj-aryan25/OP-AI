@@ -143,18 +143,12 @@ function deriveOperationalStates(stations: Station[]): StationOperationalState[]
 export const useStationStore = create<StationStoreState>()(
   devtools(
     (set, get) => {
-      // Initialize stations with totalChargers
-      const initialStations = mockStations.map(station => ({
-        ...station,
-        totalChargers: station.activeChargers + Math.floor(Math.random() * 3),
-      }));
-
       return {
         // ---------------------------------------------------------------------
         // INITIAL STATE
         // ---------------------------------------------------------------------
-        stations: initialStations,
-        operationalStates: deriveOperationalStates(initialStations),
+        stations: mockStations,
+        operationalStates: deriveOperationalStates(mockStations),
         failureEvents: mockFailureEvents,
         maintenanceActions: mockMaintenanceActions,
         networkRecommendations: [],

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { StationDataProvider } from './context/StationDataContext';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import OperatorLayout from './layouts/OperatorLayout';
@@ -23,11 +22,10 @@ import SwapRecommendationPage from '../dashboards/user/pages/SwapRecommendationP
 export default function AppRouter() {
   return (
     <BrowserRouter>
-      <StationDataProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-          <Route element={<MainLayout />}>
+        <Route element={<MainLayout />}>
             {/* Login Routes */}
             <Route path="login">
               <Route path="admin" element={<LoginPage requiredGroup="Admins" />} />
@@ -68,7 +66,6 @@ export default function AppRouter() {
           {/* 404 fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </StationDataProvider>
     </BrowserRouter>
   );
 }

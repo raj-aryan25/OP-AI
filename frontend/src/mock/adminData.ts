@@ -1,4 +1,4 @@
-import type { Station } from '../types/admin';
+import type { Station } from '../types/station';
 
 export const mockStations: Station[] = [
   {
@@ -7,6 +7,7 @@ export const mockStations: Station[] = [
     queueLength: 5,
     arrivalRate: 12.5,
     activeChargers: 8,
+    totalChargers: 10,
     chargedBatteryInventory: 24,
     temperature: 22.5,
     stationLoad: 67.3,
@@ -17,6 +18,7 @@ export const mockStations: Station[] = [
     queueLength: 3,
     arrivalRate: 8.2,
     activeChargers: 10,
+    totalChargers: 12,
     chargedBatteryInventory: 18,
     temperature: 23.1,
     stationLoad: 45.8,
@@ -27,6 +29,7 @@ export const mockStations: Station[] = [
     queueLength: 8,
     arrivalRate: 15.7,
     activeChargers: 12,
+    totalChargers: 15,
     chargedBatteryInventory: 32,
     temperature: 21.9,
     stationLoad: 82.4,
@@ -37,6 +40,7 @@ export const mockStations: Station[] = [
     queueLength: 2,
     arrivalRate: 6.3,
     activeChargers: 6,
+    totalChargers: 8,
     chargedBatteryInventory: 15,
     temperature: 22.8,
     stationLoad: 38.2,
@@ -47,6 +51,7 @@ export const mockStations: Station[] = [
     queueLength: 6,
     arrivalRate: 10.9,
     activeChargers: 9,
+    totalChargers: 12,
     chargedBatteryInventory: 21,
     temperature: 24.2,
     stationLoad: 71.6,
