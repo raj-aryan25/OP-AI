@@ -1,12 +1,12 @@
-import { Authenticator } from '@aws-amplify/ui-react';
+import { AuthProvider } from './app/auth/AuthContext';
 import AppRouter from './app/router';
 import './App.css';
 
 function App() {
   return (
-    <Authenticator.Provider>
+    <AuthProvider>
       <AppRouter />
-    </Authenticator.Provider>
+    </AuthProvider>
   );
 }
 

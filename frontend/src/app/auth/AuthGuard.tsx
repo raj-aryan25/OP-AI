@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useAuthenticator } from '@aws-amplify/ui-react';
-import { fetchAuthSession } from 'aws-amplify/auth';
+import { useAuth } from './AuthContext';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 
 interface AuthGuardProps {
@@ -8,59 +6,28 @@ interface AuthGuardProps {
 }
 
 export default function AuthGuard({ requiredGroup }: AuthGuardProps) {
-    const { authStatus } = useAuthenticator((context: any) => [context.authStatus]);
-    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+    const { user, isAuthenticated, isLoading } = useAuth();
     const location = useLocation();
 
-    useEffect(() => {
-        async function checkGroup() {
-            if (authStatus !== 'authenticated') {
-                setIsAuthorized(false);
-                return;
-            }
-
-            try {
-                const session = await fetchAuthSession();
-                const tokens = session.tokens;
-                if (!tokens) {
-                    setIsAuthorized(false);
-                    return;
-                }
-
-                const groups = tokens.accessToken.payload['cognito:groups'] as string[] || [];
-                // Check if user is in the required group
-                // If requiredGroup is 'Admins', check for 'Admins'
-                if (groups.includes(requiredGroup)) {
-                    setIsAuthorized(true);
-                } else {
-                    setIsAuthorized(false);
-                }
-            } catch (error) {
-                console.error('Error checking auth session:', error);
-                setIsAuthorized(false);
-            }
-        }
-
-        if (authStatus === 'configuring') return;
-        checkGroup();
-    }, [authStatus, requiredGroup]);
-
-    if (authStatus === 'configuring' || isAuthorized === null) {
-        return <div>Loading...</div>; // TODO: Replace with a nice loading spinner
+    if (isLoading) {
+        return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Loading...</div>;
     }
 
-    if (authStatus !== 'authenticated') {
+    if (!isAuthenticated || !user) {
         // Redirect to the specific login page for the section they tried to access
         return <Navigate to={`/login/${requiredGroup.toLowerCase().slice(0, -1)}`} state={{ from: location }} replace />;
     }
 
-    if (!isAuthorized) {
-        // Authenticated but wrong group
+    // Check role
+    // user.role from CSV is 'Admins', 'Operators', 'Users'
+    // requiredGroup is passed as 'Admins', 'Operators', 'Users'
+    if (user.role !== requiredGroup) {
         return (
-            <div style={{ padding: '2rem', textAlign: 'center' }}>
+            <div style={{ padding: '2rem', textAlign: 'center', marginTop: '100px' }}>
                 <h1>Access Denied</h1>
                 <p>You do not have permission to access this area.</p>
                 <p>Required role: {requiredGroup}</p>
+                <p>Your role: {user.role}</p>
             </div>
         );
     }

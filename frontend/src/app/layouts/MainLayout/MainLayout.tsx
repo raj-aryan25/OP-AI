@@ -1,10 +1,15 @@
-import { Outlet } from 'react-router-dom';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 import './MainLayout.css';
 
 export default function MainLayout() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  const { signOut } = useAuthenticator((context: any) => [context.signOut]);
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <div className="main-layout">
@@ -12,7 +17,7 @@ export default function MainLayout() {
         <div className="nav-container">
           <div className="nav-brand">Multi-Dashboard App</div>
           <div className="nav-links">
-            <button onClick={signOut} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+            <button onClick={handleLogout} className="nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
               Sign Out
             </button>
           </div>

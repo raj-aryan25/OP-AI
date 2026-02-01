@@ -5,6 +5,7 @@ import OperatorLayout from './layouts/OperatorLayout';
 import UserLayout from './layouts/UserLayout';
 import AuthGuard from './auth/AuthGuard';
 import LoginPage from './auth/LoginPage';
+import HomePage from './pages/HomePage';
 
 import AdminDashboard from '../dashboards/admin/AdminDashboard.tsx';
 import StationConfigPage from '../dashboards/admin/pages/StationConfigPage.tsx';
@@ -22,9 +23,9 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/login/user" replace />} />
+        <Route path="/" element={<HomePage />} />
 
+        <Route element={<MainLayout />}>
           {/* Login Routes */}
           <Route path="login">
             <Route path="admin" element={<LoginPage requiredGroup="Admins" />} />
