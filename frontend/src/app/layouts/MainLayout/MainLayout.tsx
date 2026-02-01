@@ -4,7 +4,7 @@ import './MainLayout.css';
 
 export default function MainLayout() {
 
-  const { signOut } = useAuthenticator((context) => [context.signOut]);
+  const { signOut } = useAuthenticator((context: any) => [context.signOut]);
 
   return (
     <div className="main-layout">

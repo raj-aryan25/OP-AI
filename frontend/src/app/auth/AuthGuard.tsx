@@ -8,7 +8,7 @@ interface AuthGuardProps {
 }
 
 export default function AuthGuard({ requiredGroup }: AuthGuardProps) {
-    const { authStatus } = useAuthenticator(context => [context.authStatus]);
+    const { authStatus } = useAuthenticator((context: any) => [context.authStatus]);
     const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
     const location = useLocation();
 

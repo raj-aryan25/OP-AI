@@ -10,7 +10,7 @@ interface LoginPageProps {
 }
 
 export default function LoginPage({ requiredGroup }: LoginPageProps) {
-    const { authStatus } = useAuthenticator(context => [context.authStatus]);
+    const { authStatus } = useAuthenticator((context: any) => [context.authStatus]);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || `/${requiredGroup.toLowerCase().slice(0, -1)}`;
