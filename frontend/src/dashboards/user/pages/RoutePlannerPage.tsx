@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAvailableStations } from '../../../store';
 import type { RouteRequest } from '../../../types/user';
 import { mockLocations } from '../../../mock/userData';
 import './RoutePlannerPage.css';
 
 export default function RoutePlannerPage() {
   const navigate = useNavigate();
+  // Use derived selector - computed from base state, not stored
+  const availableStations = useAvailableStations();
+  
   const [routeRequest, setRouteRequest] = useState<RouteRequest>({
     origin: null,
     destination: null,
@@ -59,7 +63,10 @@ export default function RoutePlannerPage() {
     <div className="route-planner-page">
       <div className="page-header">
         <h1>Route Planner</h1>
-        <p className="page-subtitle">Plan your journey and find optimal battery swap stations</p>
+        <p className="page-subtitle">
+          Plan your journey and find optimal battery swap stations
+          <span className="station-count-badge">{availableStations.length} stations available</span>
+        </p>
       </div>
 
       <div className="planner-container">

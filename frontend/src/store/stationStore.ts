@@ -80,6 +80,11 @@ interface StationStoreState {
     getDegradedStations: () => StationOperationalState[];
     getOfflineStations: () => StationOperationalState[];
     
+    // Derived station selectors (computed from base state)
+    getAvailableStations: () => Station[];
+    getOverloadedStations: () => Station[];
+    getStationsWithLowInventory: () => Station[];
+    
     // Metrics
     getTotalChargers: () => number;
     getActiveChargers: () => number;
@@ -328,6 +333,30 @@ export const useStationStore = create<StationStoreState>()(
           getOfflineStations: () =>
             get().operationalStates.filter((s) => s.status === 'offline'),
 
+          // Derived selectors - computed from base state, not stored
+          getAvailableStations: () => {
+            const stations = get().stations;
+            const opStates = get().operationalStates;
+            return stations.filter((station) => {
+              const opState = opStates.find(s => s.stationId === station.id);
+              // Available if online and has capacity (chargers available or low load)
+              return opState?.status === 'online' && 
+                     (station.activeChargers < station.totalChargers || station.stationLoad < 95);
+            });
+          },
+
+          getOverloadedStations: () => {
+            const stations = get().stations;
+            // Overloaded if station load >= 85%
+            return stations.filter((station) => station.stationLoad >= 85);
+          },
+
+          getStationsWithLowInventory: () => {
+            const stations = get().stations;
+            // Low inventory if charged batteries <= 5
+            return stations.filter((station) => station.chargedBatteryInventory <= 5);
+          },
+
           getTotalChargers: () =>
             get().operationalStates.reduce((sum, s) => sum + s.totalChargers, 0),
 
@@ -436,6 +465,37 @@ export const useOperationalStateById = (stationId: string) => {
   return useStationStore((state) => 
     state.operationalStates.find(s => s.stationId === stationId)
   );
+};
+
+// ============================================================================
+// DERIVED SELECTOR HOOKS (Computed from base state)
+// ============================================================================
+
+/**
+ * Get available stations (read-only, derived)
+ * Returns stations that are online and have capacity
+ * Computed dynamically from base state - not stored
+ */
+export const useAvailableStations = () => {
+  return useStationStore((state) => state.selectors.getAvailableStations());
+};
+
+/**
+ * Get overloaded stations (read-only, derived)
+ * Returns stations with load >= 85%
+ * Computed dynamically from base state - not stored
+ */
+export const useOverloadedStations = () => {
+  return useStationStore((state) => state.selectors.getOverloadedStations());
+};
+
+/**
+ * Get stations with low inventory (read-only, derived)
+ * Returns stations with <= 5 charged batteries
+ * Computed dynamically from base state - not stored
+ */
+export const useStationsWithLowInventory = () => {
+  return useStationStore((state) => state.selectors.getStationsWithLowInventory());
 };
 
 // ============================================================================

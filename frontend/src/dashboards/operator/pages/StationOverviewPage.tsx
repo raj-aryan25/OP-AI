@@ -1,11 +1,20 @@
 import { useMemo } from 'react';
-import { useStations, useOperationalStates } from '../../../store';
+import { 
+  useStations, 
+  useOperationalStates, 
+  useOverloadedStations, 
+  useStationsWithLowInventory 
+} from '../../../store';
 import './StationOverviewPage.css';
 
 export default function StationOverviewPage() {
   // Subscribe to global Zustand store - reactive updates
   const stations = useStations();
   const operationalStates = useOperationalStates();
+  
+  // Use derived selectors - computed from base state, not stored
+  const overloadedStations = useOverloadedStations();
+  const lowInventoryStations = useStationsWithLowInventory();
   
   // Compute metrics with threshold alerts
   const metrics = useMemo(() => {
@@ -15,8 +24,8 @@ export default function StationOverviewPage() {
     
     // Detect threshold violations for alerts
     const alerts = {
-      highLoad: stations.filter(s => s.stationLoad >= 85),
-      lowInventory: stations.filter(s => s.chargedBatteryInventory <= 5),
+      highLoad: overloadedStations, // From derived selector
+      lowInventory: lowInventoryStations, // From derived selector
       longQueue: stations.filter(s => s.queueLength >= 10),
       highTemp: stations.filter(s => s.temperature >= 35)
     };
@@ -25,7 +34,7 @@ export default function StationOverviewPage() {
                        alerts.longQueue.length + alerts.highTemp.length;
     
     return { totalChargers, activeChargers, onlineStations, totalAlerts, alerts };
-  }, [stations, operationalStates]);
+  }, [stations, operationalStates, overloadedStations, lowInventoryStations]);
   
   // Build station status data from both stores
   const stationStatuses = useMemo(() => {

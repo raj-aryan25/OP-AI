@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { ClipboardList, Activity, Bell, Wrench, AlertTriangle, Zap } from 'lucide-react';
-import { useStations, useOperatorStationStore } from '../../store';
+import { 
+  useStations,
+  useOperatorStationStore, 
+  useOverloadedStations, 
+  useStationsWithLowInventory 
+} from '../../store';
 import './OperatorDashboard.css';
 
 export default function OperatorDashboard() {
@@ -8,15 +13,19 @@ export default function OperatorDashboard() {
   const stations = useStations();
   const { maintenanceActions, failureEvents } = useOperatorStationStore();
   
+  // Use derived selectors - computed from base state, not stored
+  const overloadedStations = useOverloadedStations();
+  const lowInventoryStations = useStationsWithLowInventory();
+  
   // Compute real-time metrics with threshold alerts
   const metrics = useMemo(() => {
     const pendingActions = maintenanceActions.filter(a => a.status === 'pending').length;
     const criticalFailures = failureEvents.filter(f => f.severity === 'critical').length;
-    const highLoadStations = stations.filter(s => s.stationLoad >= 85).length;
-    const lowInventoryStations = stations.filter(s => s.chargedBatteryInventory <= 5).length;
+    const highLoadStations = overloadedStations.length; // From derived selector
+    const lowInventoryCount = lowInventoryStations.length; // From derived selector
     
-    return { pendingActions, criticalFailures, highLoadStations, lowInventoryStations };
-  }, [stations, maintenanceActions, failureEvents]);
+    return { pendingActions, criticalFailures, highLoadStations, lowInventoryStations: lowInventoryCount };
+  }, [overloadedStations, lowInventoryStations, maintenanceActions, failureEvents]);
   
   const hasAlerts = metrics.criticalFailures > 0 || metrics.highLoadStations > 0 || metrics.lowInventoryStations > 0;
   return (

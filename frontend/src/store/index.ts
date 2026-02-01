@@ -9,6 +9,11 @@ export {
   useOperationalStates,
   useOperationalStateById,
   
+  // Derived selector hooks (computed from base state)
+  useAvailableStations,
+  useOverloadedStations,
+  useStationsWithLowInventory,
+  
   // Role-based hooks
   useAdminStationStore,
   useOperatorStationStore,

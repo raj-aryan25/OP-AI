@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useStations } from '../../../store';
 import type { SwapStation } from '../../../types/user';
-import { mockSwapStations } from '../../../mock/userData';
 import './SwapRecommendationPage.css';
 
 export default function SwapRecommendationPage() {
@@ -9,9 +9,70 @@ export default function SwapRecommendationPage() {
   const navigate = useNavigate();
   const routeRequest = location.state?.routeRequest;
 
-  const [recommendations, setRecommendations] = useState<SwapStation[]>(mockSwapStations);
+  // Subscribe to global store - recommendations derived from real-time station state
+  const stations = useStations();
+
   const [selectedStation, setSelectedStation] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'distance' | 'waitTime' | 'comfort'>('comfort');
+  
+  // Compute recommendations dynamically from current station state
+  // Updates automatically when admin changes load/availability
+  const recommendations = useMemo<SwapStation[]>(() => {
+    return stations.map((station, idx) => {
+      // Derive metrics from real-time station state
+      const availableSlots = station.totalChargers - station.activeChargers;
+      const loadPercentage = station.stationLoad;
+      const queueLength = station.queueLength;
+      const batteryInventory = station.chargedBatteryInventory;
+      
+      // Calculate wait time based on queue and active chargers
+      const estimatedWaitTime = station.activeChargers > 0 
+        ? Math.ceil((queueLength / station.activeChargers) * 5)
+        : 0;
+      
+      // Calculate comfort score based on multiple factors
+      // Lower load = higher comfort, more inventory = higher comfort
+      const loadFactor = (100 - loadPercentage) / 100; // 0-1
+      const inventoryFactor = Math.min(batteryInventory / 20, 1); // 0-1
+      const availabilityFactor = Math.min(availableSlots / 5, 1); // 0-1
+      const queueFactor = Math.max(1 - (queueLength / 15), 0); // 0-1
+      
+      const comfortScore = Math.round(
+        (loadFactor * 30) + 
+        (inventoryFactor * 30) + 
+        (availabilityFactor * 25) + 
+        (queueFactor * 15)
+      );
+      
+      // Simulate distance/travel metrics (in real app, would use route API)
+      const distanceFromRoute = 0.5 + (idx * 1.2);
+      const estimatedTravelTime = Math.ceil(distanceFromRoute * 3);
+      
+      return {
+        id: station.id,
+        name: station.name,
+        location: {
+          id: station.id,
+          name: station.name,
+          address: `${station.name} Battery Swap Station`,
+          coordinates: { lat: 28.6 + (idx * 0.1), lng: 77.2 + (idx * 0.1) }
+        },
+        distanceFromRoute,
+        estimatedTravelTime,
+        estimatedWaitTime,
+        availableSlots,
+        batteryInventory,
+        pricePerSwap: 12 + (idx * 0.5),
+        comfortScore,
+        rating: 4.2 + (comfortScore / 200), // Rating correlated with comfort
+        amenities: [
+          batteryInventory > 15 ? 'High Inventory' : 'Limited Stock',
+          availableSlots > 3 ? 'Multiple Slots' : 'Limited Availability',
+          loadPercentage < 70 ? 'Fast Service' : 'Busy'
+        ].filter(Boolean)
+      };
+    });
+  }, [stations]);
 
   if (!routeRequest) {
     return (
@@ -26,13 +87,6 @@ export default function SwapRecommendationPage() {
       </div>
     );
   }
-
-  const handleRequestAlternative = () => {
-    // Shuffle recommendations to simulate alternative suggestions
-    const shuffled = [...recommendations].sort(() => Math.random() - 0.5);
-    setRecommendations(shuffled);
-    setSelectedStation(null);
-  };
 
   const handleSelectStation = (stationId: string) => {
     setSelectedStation(stationId);
@@ -92,9 +146,10 @@ export default function SwapRecommendationPage() {
             <option value="waitTime">Wait Time</option>
           </select>
         </div>
-        <button onClick={handleRequestAlternative} className="btn-alternative">
-          🔄 Request Alternative Suggestions
-        </button>
+        <div className="live-indicator">
+          <span className="live-dot"></span>
+          <span className="live-text">Live recommendations based on current station availability</span>
+        </div>
       </div>
 
       <div className="recommendations-container">
