@@ -13,3 +13,5 @@ export type { JSONViewerProps } from './JSONViewer';
 
 export { default as ConfirmationModal } from './ConfirmationModal';
 export type { ConfirmationModalProps } from './ConfirmationModal';
+
+export { default as MapSimulation } from './MapSimulation';

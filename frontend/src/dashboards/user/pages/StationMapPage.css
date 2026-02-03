@@ -1,0 +1,63 @@
+.station-map-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: #1e293b;
+}
+
+.page-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.map-tips {
+  margin-top: 2rem;
+}
+
+.tip-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #bae6fd;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.tip-card h3 {
+  margin: 0 0 1rem 0;
+  color: #0c4a6e;
+  font-size: 1.125rem;
+}
+
+.tip-card ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #075985;
+}
+
+.tip-card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.tip-card li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .station-map-page {
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -19,6 +19,7 @@ import ActivityLogPage from '../dashboards/operator/pages/ActivityLogPage.tsx';
 import UserDashboard from '../dashboards/user/UserDashboard.tsx';
 import RoutePlannerPage from '../dashboards/user/pages/RoutePlannerPage.tsx';
 import SwapRecommendationPage from '../dashboards/user/pages/SwapRecommendationPage.tsx';
+import StationMapPage from '../dashboards/user/pages/StationMapPage.tsx';
 import MyProfilePage from '../dashboards/user/pages/MyProfilePage.tsx';
 import SettingsPage from '../dashboards/user/pages/SettingsPage.tsx';
 
@@ -61,6 +62,7 @@ export default function AppRouter() {
             <Route element={<AuthGuard requiredGroup="Users" />}>
               <Route path="user/*" element={<UserLayout />}>
                 <Route index element={<UserDashboard />} />
+                <Route path="map" element={<StationMapPage />} />
                 <Route path="route" element={<RoutePlannerPage />} />
                 <Route path="recommendation" element={<SwapRecommendationPage />} />
                 <Route path="profile" element={<MyProfilePage />} />

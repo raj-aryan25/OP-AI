@@ -5,6 +5,7 @@ import {
   TrendingUp,
   MoreHorizontal
 } from 'lucide-react';
+import { MapSimulation } from '../../components';
 import './UserDashboard.css';
 
 // Mock Data
@@ -145,6 +146,11 @@ export default function UserDashboard() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Map Simulation Section */}
+      <div className="ud-map-section">
+        <MapSimulation />
       </div>
     </div>
   );
